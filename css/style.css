@@ -1,0 +1,102 @@
+*{
+    Margin:0;
+    padding:0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;    
+}
+
+body{
+    background-image: url(../imgs/Dodge-Charger_Daytona_SRT_Concept-2022-1600-01.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100vw;
+    background-size: 100vh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    
+}
+
+
+header{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.btn {
+    color: #ffffff;
+    font-size: 20px;
+    background: #313538;
+    padding: 10px 20px 10px 20px;
+    border: solid #c5d0d6 2px;
+}
+
+
+.fa-facebook {
+    color: #1c1cdc;
+}
+
+.fa-github, .fa-biohazard{
+    color: black;
+}
+
+.fa-linkedin {
+    color: #0e76a8;
+}
+
+header.h1{
+    font-family: "Times New Roman", Times, serif;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
+footer .container-base{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+}
+
+footer .container-column{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+footer .container-row{
+    display: flex;
+    flex-direction: row;
+}
+
+footer .container-row i{
+    padding: 0 30px 10px 0;
+}
+
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60vh;
+    margin-top: 70px;
+}
+
+.res{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.4);
+}
