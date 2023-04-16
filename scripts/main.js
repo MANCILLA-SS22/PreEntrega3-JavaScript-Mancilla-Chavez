@@ -1,11 +1,41 @@
 document.querySelector(".btn").addEventListener("click", () =>{
-
     alert("Buen dia. En esta pagina podra ver nuestra variedad de vehiculos!!");
-    
+    class carro {
+        constructor(marca, modelo, anio, puertas, kilometraje, motor, transmision, num_cilindros, potencia, precio_base) {
+            this.marca = marca;
+            this.modelo = modelo;
+            this.anio = anio;
+            this.puertas = puertas;
+            this.kilometraje = kilometraje;
+            this.motor = motor;
+            this.transmision = transmision;
+            this.num_cilindros = num_cilindros;
+            this.potencia = potencia;
+            this.precio_base = parseFloat(precio_base);
+        }
+
+        iva(x){
+            x = x*1.08;
+            return x;
+        }
+
+        descuento(y){
+            if (y >= 350000 && y <= 500000) {
+                console.log("El descuento sera del 15% !!");
+                return (y) => y-(y*0.15);
+            }else if (y > 500000 && y <= 1000000){
+                console.log("El descuento sera del 30% !!");
+                return (y) => y-(y*0.30);
+            }
+        }
+    };
+
+    let array_carros = [];
+
     let condicion = true;
     do{
         let start = parseInt(prompt("Desea iniciar? (si = 1/no = 0)"));
-        if (start == 1)  /* !isNaN(opcion) Verificar si el valor ingresado no es diferente a "NaN" */
+        if (start == 1)  //. !isNaN(opcion) Verificar si el valor ingresado no es diferente a "NaN" 
         {
             condicion = false;
             desarrollo();
@@ -22,64 +52,43 @@ document.querySelector(".btn").addEventListener("click", () =>{
         }
     }while(condicion);
 
-    function desarrollo() 
-    {
-        function iva(sub)
-        {
-            res = sub*1.08;
-            return res;
-        }
-
-        function descuento(des){
-            total = des - (des*0.15);
-            return total;
-        }
-
-        let total = 0;
+    function desarrollo(){
         let cantidad = parseFloat(prompt("Cuantos vehiculos quiere comprar?"));
-    
-        for (let i = 0; i < cantidad; i++) 
-        {
-            const tipo = parseInt(prompt("Seleccione el modelo (Sedan = 1, Pickup = 2, Deportivo = 3, Camion = 4)"));
-            switch (tipo) 
-            {
-                case 1:
-                console.log('Ha seleccionado un Sedan, y su precio es de 150000 pesos mexicanos');
-                const sedan = 150000;
-                res1 = parseFloat(iva(sedan));
-                total = total + res1;
-                break;
-                
-                case 2:
-                console.log('Ha seleccionado un Pickup, y su precio es de 280000 pesos mexicanos');
-                const pickup = 280000;
-                res2 = parseFloat(iva(pickup));
-                total = total + res2;
-                break;
-            
-                case 3:
-                console.log('Ha seleccionado un Deportivo, y su precio es de 350000 pesos mexicanos');
-                const deportivo = 350000;
-                res3 = parseFloat(iva(deportivo));
-                total = total + res3;
-                break;
-    
-                case 4:
-                console.log('Ha seleccionado un Camion, y su precio es de 300000 pesos mexicanos');
-                const camion = 300000;
-                res4 = parseFloat(iva(camion));
-                total = total + res4;
-                break;
-    
-                default:
-                console.log('No es un numero valido');
-            }        
-        }
-        console.log("El valor total de la inversion es: "+ total);
 
-        if (total >= 1000000) {
-            console.log("Debido a que su compra fue mayor a 1000000 pesos, se le descontara el 15% del valor final, el cual es: "+descuento(total));
+        for (let i = 0; i < cantidad; i++){
+            let marca = prompt("Selecciona la marca del vehiculo: ");
+            let modelo = prompt("Selecciona el modelo del vehiculo: ");
+            let anio = prompt("Selecciona el año del vehiculo: ");
+            let puertas = prompt("Selecciona la cantidad de puertas del vehiculo: ");
+            let kilometraje = prompt("Selecciona cuantos kilometros tiene el vehiculo: ");
+            let motor = prompt("Selecciona el tipo de motor del vehiculo: ");
+            let transmision = prompt("Selecciona el tipo de transmision del vehiculo: ");
+            let num_cilindros = prompt("Selecciona el numero de cilindros del vehiculo: ");
+            let potencia = prompt("Selecciona la potencia del vehiculo: ");
+            let precio_base = parseInt(prompt("Selecciona el precio normal del vehiculo: "));
+            array_carros.push(new carro(marca, modelo, anio, puertas, kilometraje, motor, transmision, num_cilindros, potencia, precio_base));
+
+        let precioConIva = array_carros[i].iva(precio_base)
+            if (precioConIva>=350000) {
+                let res = array_carros[i].descuento(array_carros[i].precio_base);
+                console.log("Los especificaciones tecnicas del vehiculo son: ", array_carros[i]);
+                let desc = res(precioConIva)
+                console.log("El descuento del vehiculo es: "+ desc);
+                array_carros[i].precio_base = desc;
+
+            }else if (precioConIva <= 350000 && precioConIva >= 0) {
+                console.log("Los especificaciones tecnicas del vehiculo son: ", array_carros[i]);
+                console.log("El precio final junto con el IVA del vehiculo "+ array_carros[i].marca+ " "+ array_carros[i].modelo+" es: "+ precioConIva); 
+                array_carros[i].precio_base = precioConIva;
+            }
+            console.log("\n");
         }
 
-    };
-})
+        console.log("EL nuevo arreglo es: ", array_carros);
+        let suma = 0;
+        for (const barrido of array_carros) {
+            suma = suma + barrido.precio_base;
+        }
+        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!");
+    }
+}) 
