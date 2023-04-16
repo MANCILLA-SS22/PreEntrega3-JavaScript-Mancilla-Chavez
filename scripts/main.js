@@ -84,11 +84,12 @@ document.querySelector(".btn").addEventListener("click", () =>{
             console.log("\n");
         }
 
-        console.log("EL nuevo arreglo es: ", array_carros);
+        array_carros.sort( (a,b)  => a.precio_base - b.precio_base);
+        console.log("El nuevo arreglo y con los precios ordenados de menor a mayor es el siguiente: ", array_carros);
+        
         let suma = 0;
         for (const barrido of array_carros) {
             suma = suma + barrido.precio_base;
         }
-        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!");
-    }
-}) 
+        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!");    }
+})
