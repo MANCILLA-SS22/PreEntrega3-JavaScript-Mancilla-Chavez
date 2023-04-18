@@ -1,16 +1,12 @@
 document.querySelector(".btn").addEventListener("click", () =>{
     alert("Buen dia. En esta pagina podra ver nuestra variedad de vehiculos!!");
     class carro {
-        constructor(marca, modelo, anio, puertas, kilometraje, motor, transmision, num_cilindros, potencia, precio_base) {
+        constructor(marca, modelo, anio, motor, transmision, precio_base) {
             this.marca = marca;
             this.modelo = modelo;
             this.anio = anio;
-            this.puertas = puertas;
-            this.kilometraje = kilometraje;
             this.motor = motor;
             this.transmision = transmision;
-            this.num_cilindros = num_cilindros;
-            this.potencia = potencia;
             this.precio_base = parseFloat(precio_base);
         }
 
@@ -56,17 +52,13 @@ document.querySelector(".btn").addEventListener("click", () =>{
         let cantidad = parseFloat(prompt("Cuantos vehiculos quiere comprar?"));
 
         for (let i = 0; i < cantidad; i++){
-            let marca = prompt("Selecciona la marca del vehiculo: ");
-            let modelo = prompt("Selecciona el modelo del vehiculo: ");
-            let anio = prompt("Selecciona el año del vehiculo: ");
-            let puertas = prompt("Selecciona la cantidad de puertas del vehiculo: ");
-            let kilometraje = prompt("Selecciona cuantos kilometros tiene el vehiculo: ");
-            let motor = prompt("Selecciona el tipo de motor del vehiculo: ");
-            let transmision = prompt("Selecciona el tipo de transmision del vehiculo: ");
-            let num_cilindros = prompt("Selecciona el numero de cilindros del vehiculo: ");
-            let potencia = prompt("Selecciona la potencia del vehiculo: ");
-            let precio_base = parseInt(prompt("Selecciona el precio normal del vehiculo: "));
-            array_carros.push(new carro(marca, modelo, anio, puertas, kilometraje, motor, transmision, num_cilindros, potencia, precio_base));
+            let marca = prompt("Selecciona la marca del vehiculo numero ["+ (i+1) +"]");
+            let modelo = prompt("Selecciona el modelo del vehiculo numero ["+ (i+1) +"]");
+            let anio = prompt("Selecciona el año del vehiculo numero ["+ (i+1) +"]");
+            let motor = prompt("Selecciona el tipo de motor del vehiculo numero ["+ (i+1) +"]");
+            let transmision = prompt("Selecciona el tipo de transmision del vehiculo numero ["+ (i+1) +"]");
+            let precio_base = parseInt(prompt("Selecciona el precio normal del vehiculo numero ["+ (i+1) +"]"));
+            array_carros.push(new carro(marca, modelo, anio, motor, transmision, precio_base));
 
         let precioConIva = array_carros[i].iva(precio_base)
             if (precioConIva>=350000) {
@@ -91,5 +83,5 @@ document.querySelector(".btn").addEventListener("click", () =>{
         for (const barrido of array_carros) {
             suma = suma + barrido.precio_base;
         }
-        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!");    }
+        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!")};
 })
