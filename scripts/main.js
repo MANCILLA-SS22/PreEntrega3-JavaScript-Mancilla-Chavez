@@ -1,87 +1,129 @@
-document.querySelector(".btn").addEventListener("click", () =>{
-    alert("Buen dia. En esta pagina podra ver nuestra variedad de vehiculos!!");
-    class carro {
-        constructor(marca, modelo, anio, motor, transmision, precio_base) {
-            this.marca = marca;
-            this.modelo = modelo;
-            this.anio = anio;
-            this.motor = motor;
-            this.transmision = transmision;
-            this.precio_base = parseFloat(precio_base);
-        }
+//Creacion de listas para el tag select, dirigido a aÃ±os del vehiculo
+const years = [
+    new Year("2017"),
+    new Year("2018"),
+    new Year("2019"),
+    new Year("2020"),
+    new Year("2021"),
+    new Year("2022"),
+    new Year("2023"),
+];
+let listaAnios = document.getElementById("disabledSelect0");
+years.forEach((e) => {
+    let item = document.createElement("option");
+    item.innerText = e.anio;
+    listaAnios.append(item);
+});
 
-        iva(x){
-            x = x*1.08;
-            return x;
-        }
+//Creacion de listas para el tag select, dirigido al precio del vehiculo
+const precios = [
+    new Precio(`$ ${100000}`),
+    new Precio(`$ ${200000}`),
+    new Precio(`$ ${300000}`),
+    new Precio(`$ ${400000}`),
+    new Precio(`$ ${500000}`),
+    new Precio(`$ ${600000}`),
+    new Precio(`$ ${700000}`),
+    new Precio(`$ ${800000}`),
+    new Precio(`$ ${900000}`),
+    new Precio(`$ ${100000}`)
+];
+let listaPrecios = document.getElementById("disabledSelect1");
+precios.forEach((e) => {
+    let item = document.createElement("option");
+    item.innerText = e.precio;
+    listaPrecios.append(item);
+});
 
-        descuento(y){
-            if (y >= 350000 && y <= 500000) {
-                console.log("El descuento sera del 15% !!");
-                return (y) => y-(y*0.15);
-            }else if (y > 500000 && y <= 1000000){
-                console.log("El descuento sera del 30% !!");
-                return (y) => y-(y*0.30);
-            }
-        }
-    };
+//Creacion de listas para el tag select, dirigido al tipo de motor del vehiculo
+const motores = [
+    new Motor("Diesel"),
+    new Motor("Gasolina"),
+    new Motor("Electrico"),
+    new Motor("Gas"),
+];
+let listaMotores = document.getElementById("disabledSelect2");
+motores.forEach((e) => {
+    let item = document.createElement("option");
+    item.innerText = e.motor;
+    listaMotores.append(item);
+});
 
-    let array_carros = [];
+//Creacion de listas para el tag select, dirigido al tipo de transmision del vehiculo
+const transmisiones = [
+    new Transmision("Estandar"),
+    new Transmision("Automatico"),
+];
+let listaTransmision = document.getElementById("disabledSelect3");
+transmisiones.forEach((e) => {
+    let item = document.createElement("option");
+    item.innerText = e.transmision;
+    listaTransmision.append(item);
+});0
 
-    let condicion = true;
-    do{
-        let start = parseInt(prompt("Desea iniciar? (si = 1/no = 0)"));
-        if (start == 1)  //. !isNaN(opcion) Verificar si el valor ingresado no es diferente a "NaN" 
-        {
-            condicion = false;
-            desarrollo();
-        }
-        
 
-        else if (start == 0) {
-            condicion = false;
-            alert('Gracias, vuelva pronto!!!');
-        }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-        else{
-            alert("Ha ingresado un valor incorrectamente. Favor de volver a intentarlo");
-        }
-    }while(condicion);
+let array_carros = [];
+let carrosJSON = [];
 
-    function desarrollo(){
-        let cantidad = parseFloat(prompt("Cuantos vehiculos quiere comprar?"));
+const formulario = document.getElementById("formulario");
+formulario.addEventListener("submit", (event) => {
+    event.preventDefault();
+    event.target.setAttribute("class", "needs-validation"); 
 
-        for (let i = 0; i < cantidad; i++){
-            let marca = prompt("Selecciona la marca del vehiculo numero ["+ (i+1) +"]");
-            let modelo = prompt("Selecciona el modelo del vehiculo numero ["+ (i+1) +"]");
-            let anio = prompt("Selecciona el año del vehiculo numero ["+ (i+1) +"]");
-            let motor = prompt("Selecciona el tipo de motor del vehiculo numero ["+ (i+1) +"]");
-            let transmision = prompt("Selecciona el tipo de transmision del vehiculo numero ["+ (i+1) +"]");
-            let precio_base = parseInt(prompt("Selecciona el precio normal del vehiculo numero ["+ (i+1) +"]"));
-            array_carros.push(new carro(marca, modelo, anio, motor, transmision, precio_base));
+    let resultado = crearAuto();
 
-        let precioConIva = array_carros[i].iva(precio_base)
-            if (precioConIva>=350000) {
-                let res = array_carros[i].descuento(array_carros[i].precio_base);
-                console.log("Los especificaciones tecnicas del vehiculo son: ", array_carros[i]);
-                let desc = res(precioConIva)
-                console.log("El descuento del vehiculo es: "+ desc);
-                array_carros[i].precio_base = desc;
+    return resultado;
+});
 
-            }else if (precioConIva <= 350000 && precioConIva >= 0) {
-                console.log("Los especificaciones tecnicas del vehiculo son: ", array_carros[i]);
-                console.log("El precio final junto con el IVA del vehiculo "+ array_carros[i].marca+ " "+ array_carros[i].modelo+" es: "+ precioConIva); 
-                array_carros[i].precio_base = precioConIva;
-            }
-            console.log("\n");
-        }
+if (localStorage.getItem("array_carros")) {
+    carrosJSON = JSON.parse(localStorage.getItem("array_carros"));
+    array_carros = carrosJSON.map((element) => new Carro(element.marca, element.modelo, element.anio, element.precio, element.motor, element.transmision));
+    imprimirTabla(array_carros);
+}
 
-        array_carros.sort( (a,b)  => a.precio_base - b.precio_base);
-        console.log("El nuevo arreglo y con los precios ordenados de menor a mayor es el siguiente: ", array_carros);
-        
-        let suma = 0;
-        for (const barrido of array_carros) {
-            suma = suma + barrido.precio_base;
-        }
-        console.log("\nLa suma total de la compra es de $"+ suma+". Gracias por su compra!!")};
-})
+function crearAuto() {
+    const nombreVehiculo = document.getElementById("disabledTextInput0").value;
+    const modeloVehiculo = document.getElementById("disabledTextInput1").value;
+    const anoVehiculo = document.getElementById("disabledSelect0").value;
+    const precioVehiculo = document.getElementById("disabledSelect1").value;
+    const motorVehiculo = document.getElementById("disabledSelect2").value;
+    const transmisionVehiculo = document.getElementById("disabledSelect3").value;
+
+    // Buscamos o creamos a una Carrera
+    let unVehiculo = new Carro(nombreVehiculo, modeloVehiculo, anoVehiculo, precioVehiculo, motorVehiculo, transmisionVehiculo);
+    array_carros.push(unVehiculo);
+    localStorage.setItem("array_carros", JSON.stringify(array_carros));// Almacewnar en el local storage todas las carreras
+    imprimirTabla(array_carros);
+
+    limpiar();
+    return true;
+} 
+
+function imprimirTabla(arreglo = []){
+    let bodyTable = document.getElementById("autosTableBody");
+    bodyTable.innerHTML = "";
+    array_carros.forEach((evento) => {
+    let tabla = document.createElement("tr");
+    tabla.innerHTML = 
+        `<tr>
+        <td scope="row">${evento.marca}</td>
+        <td>${evento.modelo}</td>
+        <td>${evento.anio}</td>
+        <td>${evento.precio}</td>
+        <td>${evento.motor}</td>
+        <td>${evento.transmision}</td>
+        </tr>`;
+    bodyTable.append(tabla);
+    });
+}
+
+function limpiar(){
+    document.getElementById("disabledTextInput0").value = "";
+    document.getElementById("disabledTextInput1").value = "";
+    document.getElementById("disabledSelect0").value = "";
+    document.getElementById("disabledSelect1").value = "";
+    document.getElementById("disabledSelect2").value = "";
+    document.getElementById("disabledSelect3").value = "";
+}
